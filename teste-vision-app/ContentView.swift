@@ -12,10 +12,6 @@ import RealityKitContent
 
 struct ContentView: View {
     
-    func countNum() {
-        let num = 0
-    }
-    
     var body: some View {
         VStack {
             Text("Organize em ordem crescente")
@@ -41,15 +37,5 @@ struct ContentView: View {
 }
 
 #Preview(windowStyle: .volumetric) {
-    ZStack {
-        RealityView { content in
-            let model = MeshResource.generateSphere(radius: 0.1)
-            let material = SimpleMaterial(color: .red, isMetallic: true)
-            let entity = ModelEntity(mesh: model, materials: [material])
-            content.add(entity)
-        }
-        Text("10").offset(z: -350)
-            .font(.system(size: 100))
-            
-    }
+    ContentView()
 }
