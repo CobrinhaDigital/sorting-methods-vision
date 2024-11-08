@@ -28,7 +28,7 @@ struct AssetView: View {
             .frame(width: side, height: side)
             .frame(depth: side)
             Text("\(sphereNum)")
-                .font(.system(size: 45))
+                .font(.system(size: 35))
                 .bold()
         }
     }

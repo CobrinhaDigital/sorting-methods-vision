@@ -16,18 +16,21 @@ struct AssetTableView: View {
     @State var rowNum: Int
     
     var body: some View {
-        VStack {
-            ForEach(0...columnNum, id: \.self) { column in
-                HStack {
-                    ForEach(0...rowNum, id: \.self) { row in
-                        AssetRowView(rowNum: 0)
+        ScrollView {
+            VStack {
+                ForEach(0...columnNum, id: \.self) { column in
+                    HStack {
+                        ForEach(0...rowNum, id: \.self) { row in
+                            AssetRowView(rowNum: 0)
+                        }
                     }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
 
 #Preview {
-    AssetTableView(columnNum: 10, rowNum: 10)
+    AssetTableView(columnNum: 7, rowNum: 0)
 }
