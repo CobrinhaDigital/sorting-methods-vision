@@ -22,7 +22,7 @@ struct teste_vision_appApp: App {
 //        }
 //        .windowStyle(.volumetric)
         WindowGroup {
-            AssetView(sphereNum: 1)
+            AssetRowView(rowNum: 10)
         }
     }
 }
