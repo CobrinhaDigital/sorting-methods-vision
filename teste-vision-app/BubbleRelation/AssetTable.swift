@@ -13,24 +13,19 @@ import RealityKitContent
 
 struct AssetTableView: View {
     @State var columnNum: Int
-    @State var rowNum: Int
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(0...columnNum, id: \.self) { column in
-                    HStack {
-                        ForEach(0...rowNum, id: \.self) { row in
-                            AssetRowView(rowNum: 0)
-                        }
-                    }
+        VStack {
+            ForEach(0...columnNum, id: \.self) { column in
+                HStack {
+                    AssetRowView(rowNum: 10)
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 #Preview {
-    AssetTableView(columnNum: 7, rowNum: 0)
+    AssetTableView(columnNum: 7)
 }

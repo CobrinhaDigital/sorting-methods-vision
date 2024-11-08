@@ -12,6 +12,7 @@ import RealityKitContent
 
 struct AssetView: View {
     @State var sphereNum: Int
+    @State private var ball = ModelEntity()
     
     var body: some View {
         ZStack {
@@ -19,11 +20,20 @@ struct AssetView: View {
             let side = 2 * radius * 1360
              
             RealityView { content in
-                let modelSphere = MeshResource.generateSphere(radius: Float(radius))
-                let materialSphere = SimpleMaterial(color: .clear, isMetallic: false)
-                let entitySphere = ModelEntity(mesh: modelSphere, materials: [materialSphere])
-                entitySphere.components.set(InputTargetComponent())
-                content.add(entitySphere)
+//                let modelSphere = MeshResource.generateSphere(radius: Float(radius))
+//                let materialSphere = SimpleMaterial(color: .clear, isMetallic: false)
+//                let entitySphere = ModelEntity(mesh: modelSphere, materials: [materialSphere])
+//                entitySphere.components.set(InputTargetComponent())
+//                content.add(entitySphere)
+                let ballMesh = MeshResource.generateSphere(radius: Float(radius))
+                let material = SimpleMaterial(color: .clear, isMetallic: false)
+                ball = ModelEntity(mesh: ballMesh, materials: [material])
+                
+                ball.components.set(InputTargetComponent(allowedInputTypes: .indirect))
+                ball.generateCollisionShapes(recursive: true)
+                ball.components.set(GroundingShadowComponent(castsShadow: true))
+                
+                content.add(ball)
             }
             .frame(width: side, height: side)
             .frame(depth: side)
@@ -31,6 +41,13 @@ struct AssetView: View {
                 .font(.system(size: 35))
                 .bold()
         }
+        .gesture(
+            DragGesture()
+                .targetedToEntity(ball)
+                .onChanged({ value in
+                    ball.position = value.convert(value.location3D, from: .local, to: ball.parent!)
+                })
+        )
     }
 }
 
