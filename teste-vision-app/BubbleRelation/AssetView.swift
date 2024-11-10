@@ -13,6 +13,7 @@ import RealityKitContent
 struct AssetView: View {
     @State var sphereNum: Int
     @State private var ball = ModelEntity()
+    @State private var offset = CGSize.zero
     
     var body: some View {
         ZStack {
@@ -41,12 +42,23 @@ struct AssetView: View {
                 .font(.system(size: 35))
                 .bold()
         }
+        .offset(offset)
         .gesture(
             DragGesture()
-                .targetedToEntity(ball)
-                .onChanged({ value in
-                    ball.position = value.convert(value.location3D, from: .local, to: ball.parent!)
-                })
+//                .targetedToEntity(ball)
+//                .onChanged({ value in
+//                    ball.position = value.convert(value.location3D, from: .local, to: ball.parent!)
+//                })
+                .targetedToAnyEntity()
+                .onChanged { value in
+                    offset = value.translation
+                }
+                .onEnded { value in
+                    //se coords nao colidir com outra bola
+                        //voltar para inicial (CGPoint.zero?)
+                    //se coords colidir
+                        //trocar bolas de lugar
+                }
         )
     }
 }
