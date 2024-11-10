@@ -212,5 +212,94 @@ def Xform "Root"
             int ui:nodegraph:node:stackingOrder = 1363
         }
     }
+
+    def Xform "ParticleEmitter_1"
+    {
+        float2 ui:nodegraph:node:pos = (1160.5723, 235.39648)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (6, 6, 6)
+        float3 xformOp:translate = (0, 0.73600125, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "VFXEmitter"
+        {
+            token info:id = "RealityKit.VFXEmitter"
+
+            def RealityKitStruct "currentState"
+            {
+                token birthDirection = "Local"
+                token birthLocation = "Surface"
+                int64 burstCount = 400
+                int64 burstCountVariation = 100
+                float3 emissionDirection = (0, -1, 0)
+                double emissionDuration = 60
+                double emissionDurationVariation = 0
+                token emitterShape = "Plane"
+                double idleDuration = 0
+                double idleDurationVariation = 0
+                bool isLocal = 0
+                bool isLocalFields = 0
+                bool isSpawningEnabled = 0
+                bool loops = 1
+                float particleSpeed = 0.09
+                float particleSpeedVariation = 0.04
+                bool spawnInheritParentColor = 0
+                token spawnOccasion = "OnUpdate"
+                float spawnSpreadFactor = 0
+                float spawnSpreadFactorVariation = 0
+                float spawnVelocityFactor = 1
+                double warmupDuration = 0
+
+                def RealityKitStruct "mainEmitter"
+                {
+                    float3 acceleration = (0, 0, 0)
+                    token animationRepeatMode = "AutoReverse"
+                    token billboardMode = "Billboard"
+                    float birthRate = 500
+                    float birthRateVariation = 10
+                    token blendMode = "Opaque"
+                    float colorEvolutionPower = 200
+                    float dampingFactor = 0
+                    float4 endColorA = (1, 0, 0, 1)
+                    float4 endColorB = (1, 1, 1, 1)
+                    bool isAnimated = 1
+                    bool isLightingEnabled = 1
+                    float noiseAnimationSpeed = 2
+                    float noiseScale = 1
+                    float noiseStrength = 0.02
+                    token opacityOverLife = "QuickFadeInOut"
+                    float particleAngle = 3.1415925
+                    float particleAngleVariation = 3.1415925
+                    float particleAngularVelocity = 0
+                    float particleAngularVelocityVariation = 0.5
+                    asset particleImage = @ParticleEmitterPresetTextures/snow.png@
+                    double particleLifeSpan = 3
+                    double particleLifeSpanVariation = 20
+                    float particleMass = 1
+                    float particleMassVariation = 0
+                    float particleSize = 0.001
+                    float particleSizeVariation = 0.002
+                    float3 radialGravityCenter = (1, 1, 0)
+                    float radialGravityStrength = 0
+                    float sizeMultiplierAtEndOfLifespan = 0.8
+                    float sizeMultiplierAtEndOfLifespanPower = 10
+                    token sortOrder = "IncreasingDepth"
+                    float spreadingAngle = 0
+                    float4 startColorA = (1, 0.64785594, 0.013170054, 1)
+                    float4 startColorB = (1, 1, 1, 1)
+                    float stretchFactor = 0
+                    bool useEndColor = 1
+                    bool useEndColorRange = 1
+                    bool useStartColorRange = 1
+                    float3 vortexDirection = (0, 1, 0)
+                }
+
+                def RealityKitStruct "spawnedEmitter"
+                {
+                }
+            }
+        }
+    }
 }
 
