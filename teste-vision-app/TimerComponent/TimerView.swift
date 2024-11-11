@@ -12,6 +12,7 @@ import RealityKitContent
 struct TimerView: View {
     @StateObject private var viewModel = TimerViewModel()
     @State private var showEndMessage = false // Variável para controlar a exibição da mensagem de fim do timer
+    @ObservedObject var imersiveViewModel = ImersiveViewModel()
 
     var body: some View {
         VStack {
@@ -74,11 +75,11 @@ struct TimerView: View {
                     viewModel.resetTimer(to: viewModel.selectedTime)
                 }
             }
-
             .onChange(of: viewModel.timerModel.timeRemaining) { newValue in
                 // Quando o tempo acabar, exibe a mensagem e faz o quadrado ficar verde por alguns segundos
                 if newValue == 0 {
                     showEndMessage = true
+                    imersiveViewModel.isImmersiveSpaceActive = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         showEndMessage = false // Esconde a mensagem após 2 segundos
                     }

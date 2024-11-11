@@ -10,8 +10,17 @@ import RealityKit
 import RealityKitContent
 
 struct MainView: View {
+    @StateObject var imersiveViewModel = ImersiveViewModel()
+    
     var body: some View {
         VStack {
+            Button("Show Particles") {
+                imersiveViewModel.isImmersiveSpaceActive = true // Alterna a exibição do espaço imersivo
+            }
+            .padding()
+            .font(.system(size: 25, weight: .bold))
+            .glassBackgroundEffect() // Estilização do botão
+            
             HStack { // Use um VStack ou outro contêiner para agrupar as views
                 TimerView()
                     .glassBackgroundEffect()
@@ -25,6 +34,9 @@ struct MainView: View {
             .frame(minWidth: 1000, maxWidth: 1000, minHeight: 160, maxHeight: 160)
             AssetRowView(rowNum: 10)
                 .frame(maxWidth: 200, minHeight: 200, maxHeight: 200)
+        }
+        .fullScreenCover(isPresented: $imersiveViewModel.isImmersiveSpaceActive) {
+            Particles()
         }
     }
 }
