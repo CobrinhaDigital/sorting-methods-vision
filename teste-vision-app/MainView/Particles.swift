@@ -16,6 +16,7 @@ struct Particles: View {
                 Content.add(scene)
             }
         }
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

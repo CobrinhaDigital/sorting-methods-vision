@@ -11,16 +11,20 @@ import RealityKitContent
 
 struct MainView: View {
     var body: some View {
-        HStack { // Use um VStack ou outro contêiner para agrupar as views
-            TimerView()
-                .glassBackgroundEffect()
-                .frame(minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200)
-                .scaleEffect(0.8)
-                .offset(z: 20)
-            RecipeView()
-//                .frame(minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200)
-                .glassBackgroundEffect()
+        VStack {
+            HStack { // Use um VStack ou outro contêiner para agrupar as views
+                TimerView()
+                    .glassBackgroundEffect()
+                    .frame(minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200)
+                    .scaleEffect(0.8)
+                    .offset(z: 20)
+                RecipeView()
+    //                .frame(minWidth: 200, maxWidth: 200, minHeight: 200, maxHeight: 200)
+                    .glassBackgroundEffect()
+            }
+            .frame(minWidth: 1000, maxWidth: 1000, minHeight: 160, maxHeight: 160)
+            AssetRowView(rowNum: 10)
+                .frame(maxWidth: 200, minHeight: 200, maxHeight: 200)
         }
-        .frame(minWidth: 1000, maxWidth: 1000, minHeight: 160, maxHeight: 160)
     }
 }
