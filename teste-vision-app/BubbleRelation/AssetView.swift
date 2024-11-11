@@ -35,16 +35,25 @@ struct AssetView: View {
 //                
 //                content.add(ball)
                 
-                let textMesh = MeshResource.generateText(
-                    "\(sphereNum)",
-                    font: .boldSystemFont(ofSize: 0.05)
-                )
-                let textEntity = ModelEntity(mesh: textMesh)
-                textEntity.model?.materials = [UnlitMaterial(color: .white)]
-                textEntity.position.x = textMesh.bounds.center.x
-                textEntity.position.y = textMesh.bounds.center.y
+//                let textMesh = MeshResource.generateText(
+//                    "\(sphereNum)",
+//                    font: .boldSystemFont(ofSize: 0.05)
+//                )
+//                
+//                let textEntity = ModelEntity(mesh: textMesh)
+//                textEntity.model?.materials = [UnlitMaterial(color: .white)]
+//                textEntity.position.x = textMesh.bounds.center.x
+//                textEntity.position.y = textMesh.bounds.center.y
+//                
+//                content.add(textEntity)
                 
-                content.add(textEntity)
+                let mesh = MeshResource.generateText("\(sphereNum)", extrusionDepth: 0.005, font: .boldSystemFont(ofSize: 0.03))
+                let model = ModelEntity(mesh: mesh)
+                model.model?.materials = [UnlitMaterial(color: .cyan)]
+                model.position.x = -mesh.bounds.center.x
+                model.position.y = -mesh.bounds.center.y
+                
+                content.add(model)
                 
                 if let model = try? await Entity(named: "RealityKitContent", in: realityKitContentBundle) {
                     content.add(model)
