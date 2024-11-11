@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import VisionKit
 import RealityKit
 import RealityKitContent
 
@@ -26,21 +25,33 @@ struct AssetView: View {
 //                let entitySphere = ModelEntity(mesh: modelSphere, materials: [materialSphere])
 //                entitySphere.components.set(InputTargetComponent())
 //                content.add(entitySphere)
-                let ballMesh = MeshResource.generateSphere(radius: Float(radius))
-                let material = SimpleMaterial(color: .clear, isMetallic: false)
-                ball = ModelEntity(mesh: ballMesh, materials: [material])
+//                let ballMesh = MeshResource.generateSphere(radius: Float(radius))
+//                let material = SimpleMaterial(color: .clear, isMetallic: false)
+//                ball = ModelEntity(mesh: ballMesh, materials: [material])
+//                
+//                ball.components.set(InputTargetComponent(allowedInputTypes: .indirect))
+//                ball.generateCollisionShapes(recursive: true)
+//                ball.components.set(GroundingShadowComponent(castsShadow: true))
+//                
+//                content.add(ball)
                 
-                ball.components.set(InputTargetComponent(allowedInputTypes: .indirect))
-                ball.generateCollisionShapes(recursive: true)
-                ball.components.set(GroundingShadowComponent(castsShadow: true))
+                let textMesh = MeshResource.generateText(
+                    "\(sphereNum)",
+                    font: .boldSystemFont(ofSize: 0.05)
+                )
+                let textEntity = ModelEntity(mesh: textMesh)
+                textEntity.model?.materials = [UnlitMaterial(color: .white)]
+                textEntity.position.x = textMesh.bounds.center.x
+                textEntity.position.y = textMesh.bounds.center.y
                 
-                content.add(ball)
+                content.add(textEntity)
+                
+                if let model = try? await Entity(named: "RealityKitContent", in: realityKitContentBundle) {
+                    content.add(model)
+                }
             }
             .frame(width: side, height: side)
             .frame(depth: side)
-            Text("\(sphereNum)")
-                .font(.system(size: 35))
-                .bold()
         }
         .offset(offset)
         .gesture(

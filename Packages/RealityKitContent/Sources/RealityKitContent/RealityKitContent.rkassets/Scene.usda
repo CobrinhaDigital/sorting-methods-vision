@@ -7,23 +7,33 @@
 
 def Xform "Root"
 {
-    reorder nameChildren = ["GridMaterial", "Sphere"]
+    reorder nameChildren = ["GridMaterial", "Sphere", "Material", "Material_1"]
     rel material:binding = None (
         bindMaterialAs = "weakerThanDescendants"
     )
+
+    def "GridMaterial" (
+        active = true
+        references = @Materials/GridMaterial.usda@
+    )
+    {
+        float3 xformOp:scale = (1, 1, 1)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+    }
 
     def Sphere "Sphere" (
         active = true
         prepend apiSchemas = ["MaterialBindingAPI"]
     )
     {
-        rel material:binding = </Root/GridMaterial/GridMaterial> (
+        reorder nameChildren = ["Collider", "InputTarget", "Material"]
+        rel material:binding = </Root/Sphere/Material> (
             bindMaterialAs = "weakerThanDescendants"
         )
-        double radius = 0.05
+        double radius = 0.03
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
-        float3 xformOp:translate = (0, 0, 0.0004)
+        float3 xformOp:translate = (0, 0, 0)
         uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
 
         def RealityKitComponent "Collider"
@@ -45,15 +55,32 @@ def Xform "Root"
         {
             uniform token info:id = "RealityKit.InputTarget"
         }
-    }
 
-    def "GridMaterial" (
-        active = true
-        prepend references = @Materials/GridMaterial.usda@
-    )
-    {
-        float3 xformOp:scale = (1, 1, 1)
-        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        def Material "Material"
+        {
+            reorder nameChildren = ["PreviewSurface", "Sphere"]
+            token outputs:mtlx:surface.connect = </Root/Sphere/Material/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (431.4336, 100.5)
+            int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 8
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                float inputs:clearcoatRoughness = 0
+                color3f inputs:diffuseColor = (1, 1, 1) (
+                    colorSpace = "srgb_displayp3"
+                )
+                float inputs:ior = 2
+                float3 inputs:normal = (1, 1, 1)
+                float inputs:occlusion = 1
+                float inputs:opacity = 0
+                float inputs:roughness = 0.5
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (93.5, 100.5)
+                int ui:nodegraph:node:stackingOrder = 17
+            }
+        }
     }
 }
 
