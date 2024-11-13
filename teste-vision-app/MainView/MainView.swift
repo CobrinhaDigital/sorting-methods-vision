@@ -12,6 +12,8 @@ import RealityKitContent
 struct MainView: View {
     @StateObject private var viewModel = TimerViewModel() // Instância padrão
     @StateObject var imersiveViewModel = ImersiveViewModel()
+    @Environment(\.openImmersiveSpace) var openImersiveSpace
+    @Environment(\.dismissImmersiveSpace) var dismissImmersiveSpace
 
     var body: some View {
         ZStack {
@@ -27,7 +29,6 @@ struct MainView: View {
                             .glassBackgroundEffect()
                     }
                     .frame(minWidth: 1000, maxWidth: 1000, minHeight: 160, maxHeight: 160)
-//                    Spacer()
                     
                     ZStack(alignment:.center){
                         Rectangle()
@@ -37,7 +38,6 @@ struct MainView: View {
                             .rotation3DEffect(.degrees(20), axis: (x: 1, y: 0, z: 0))
 
                         AssetRowView(rowNum: 10)
-//                            .glassBackgroundEffect()
                             .frame(minWidth: 500, maxWidth: 500, minHeight: 100, maxHeight: 100)
                             .rotation3DEffect(.degrees(20), axis: (x: 1, y: 0, z: 0))
                             .offset(y: -20)
@@ -51,8 +51,15 @@ struct MainView: View {
                                 .foregroundColor(.white)
                                 .padding()
                                 .glassBackgroundEffect()
+                                .opacity(viewModel.showEndMessage ? 1 : 0) // Inicia invisível
+                                .scaleEffect(viewModel.showEndMessage ? 1 : 0.5) // Inicia com uma escala reduzida
+                                .animation(.easeIn(duration: 0.5), value: viewModel.showEndMessage) // Aparece com animação
+                            
                             Button {
                                 viewModel.showEndMessage = false
+                                Task {
+                                    await dismissImmersiveSpace()
+                                }
                             } label: {
                                 Text("return to challenge")
                                     .font(.callout)
@@ -66,13 +73,17 @@ struct MainView: View {
                         
                         Particles()
                     }
+                    .transition(.move(edge: .top)) // Adiciona transição de movimento para o topo quando aparece
                 }
             }
         }
         .onChange(of: viewModel.timerModel.timeRemaining) { newValue in
             if newValue == 0 {
                 viewModel.showEndMessage = true
-                imersiveViewModel.isImmersiveSpaceActive = true // Alterna a exibição do espaço imersivo
+                
+                Task {
+                    await openImersiveSpace(id: "ParticlesImmersiveSpace")
+                }
             }
         }
         .environmentObject(viewModel)

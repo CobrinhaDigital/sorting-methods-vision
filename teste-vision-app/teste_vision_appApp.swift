@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct teste_vision_appApp: App {
+    @State private var showSplashScreen = true
+    
     var body: some Scene {
 //        WindowGroup {
 //            AssetComponentView(num: 10)
@@ -21,14 +23,26 @@ struct teste_vision_appApp: App {
 //            AssetComponentView(num: 10)
 //        }
 //        .windowStyle(.volumetric)
-        WindowGroup {
-            MainView()
-        }.windowStyle(.plain)
-        
         // Adiciona o espaço imersivo
         ImmersiveSpace(id: "ParticlesImmersiveSpace") {
             Particles() // View imersiva com animação de partículas
         }
-        .immersionStyle(selection: .constant(.full), in: .full)
+        .immersionStyle(selection: .constant(.full), in: .mixed)
+        WindowGroup {
+            if showSplashScreen {
+                SplashScreenView()
+                    .onAppear {
+                        // Espera 3 segundos antes de mostrar a MainView
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation(.easeInOut(duration: 1.0)) {
+                                showSplashScreen = false // Desativa a splash screen e exibe a MainView
+                            }
+                        }
+                    }
+            } else {
+                // Aqui você pode manter a lógica de navegação da sua MainView
+                MainView()
+            }
+        }.windowStyle(.plain)
     }
 }
