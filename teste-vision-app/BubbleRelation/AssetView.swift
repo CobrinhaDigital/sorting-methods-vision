@@ -29,7 +29,6 @@ struct AssetView: View {
                 let ballMesh = MeshResource.generateSphere(radius: Float(radius))
                 let material = SimpleMaterial(color: .clear, isMetallic: false)
                 ball = ModelEntity(mesh: ballMesh, materials: [material])
-                
                 ball.components.set(InputTargetComponent(allowedInputTypes: .indirect))
                 ball.generateCollisionShapes(recursive: true)
                 ball.components.set(GroundingShadowComponent(castsShadow: true))

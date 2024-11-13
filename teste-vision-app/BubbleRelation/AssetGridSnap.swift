@@ -24,12 +24,15 @@ struct SwiftUIView: View {
     @State private var offset = CGSize.zero
 
     var body: some View {
-        ZStack {
+        VStack {
             ForEach(Array(grid.enumerated()), id: \.offset) { (index, point) in
-                Circle()
-                    .fill(.red)
-                    .frame(width: 100, height: 100)
+                AssetView(sphereNum: index)
                     .position(x: point.x, y: point.y)
+                
+                //                Circle()
+//                    .fill(.red)
+//                    .frame(width: 100, height: 100)
+//                    .position(x: point.x, y: point.y)
             }
             Circle()
                 .fill(.green)
