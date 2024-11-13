@@ -10,8 +10,8 @@ import RealityKit
 import RealityKitContent
 
 struct TimerView: View {
-    @StateObject private var viewModel = TimerViewModel()
-    @State private var showEndMessage = false // Variável para controlar a exibição da mensagem de fim do timer
+    @EnvironmentObject private var viewModel: TimerViewModel
+    
 
     var body: some View {
         VStack {
@@ -31,7 +31,7 @@ struct TimerView: View {
                             .contentTransition(.numericText())
                             .animation(.easeInOut, value: viewModel.timerModel.timeRemaining)
                     }
-                } else if showEndMessage { // Exibe a mensagem de fim do timer
+                } else if viewModel.showEndMessage { // Exibe a mensagem de fim do timer
                     VStack {
                         Text("Timer encerrado")
                             .font(.system(size: 32).bold())
@@ -75,13 +75,10 @@ struct TimerView: View {
                 }
             }
 
-            .onChange(of: viewModel.timerModel.timeRemaining) { newValue in
+            .onChange(of: viewModel.timerModel.timeRemaining) { newValue  in
                 // Quando o tempo acabar, exibe a mensagem e faz o quadrado ficar verde por alguns segundos
                 if newValue == 0 {
-                    showEndMessage = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        showEndMessage = false // Esconde a mensagem após 2 segundos
-                    }
+                    viewModel.showEndMessage = true
                 }
             }
         }

@@ -11,6 +11,7 @@ import Combine
 class TimerViewModel: ObservableObject {
     @Published var timerModel: TimerModel
     @Published var selectedTime: Int
+    @Published var showEndMessage: Bool = false
     let timeOptions = [10, 20, 30, 40, 50, 60]
     
     private var timer: Timer?

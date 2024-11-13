@@ -72,6 +72,15 @@
     "objectMetadataList" : [
       [
         "C82541FF-125F-437B-8B79-4AAB41CF6661",
+        "Root",
+        "GridMaterial"
+      ],
+      {
+        "isExpanded" : true,
+        "isLocked" : false
+      },
+      [
+        "C82541FF-125F-437B-8B79-4AAB41CF6661",
         "Root"
       ],
       {

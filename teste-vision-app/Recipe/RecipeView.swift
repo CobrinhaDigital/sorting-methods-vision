@@ -75,7 +75,7 @@ struct StageOneView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(element.title)
-                .font(.title)
+                .font(.largeTitle)
                 .padding()
             Text(element.description)
                 .font(.body)
