@@ -22,7 +22,13 @@ struct teste_vision_appApp: App {
 //        }
 //        .windowStyle(.volumetric)
         WindowGroup {
-            AssetRowView(rowNum: 10)
+            MainView()
+        }.windowStyle(.plain)
+        
+        // Adiciona o espaço imersivo
+        ImmersiveSpace(id: "ParticlesImmersiveSpace") {
+            Particles() // View imersiva com animação de partículas
         }
+        .immersionStyle(selection: .constant(.full), in: .full)
     }
 }

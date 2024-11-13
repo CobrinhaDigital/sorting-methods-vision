@@ -16,6 +16,7 @@ struct Particles: View {
                 Content.add(scene)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .edgesIgnoringSafeArea(.all)
     }
 }

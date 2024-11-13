@@ -12,8 +12,8 @@ import RealityKitContent
 
 struct AssetView: View {
     @State var sphereNum: Int
-    @State private var ball = ModelEntity()
-    @State private var offset = CGSize.zero
+    @State private var offset = CGSize.zero // Estado para o deslocamento total da ZStack
+    private let scaleFactor: CGFloat = 0.03 // Fator de escala para diminuir a sensibilidade
     
     var body: some View {
         ZStack {
@@ -21,14 +21,9 @@ struct AssetView: View {
             let side = 2 * radius * 1360
              
             RealityView { content in
-//                let modelSphere = MeshResource.generateSphere(radius: Float(radius))
-//                let materialSphere = SimpleMaterial(color: .clear, isMetallic: false)
-//                let entitySphere = ModelEntity(mesh: modelSphere, materials: [materialSphere])
-//                entitySphere.components.set(InputTargetComponent())
-//                content.add(entitySphere)
                 let ballMesh = MeshResource.generateSphere(radius: Float(radius))
                 let material = SimpleMaterial(color: .clear, isMetallic: false)
-                ball = ModelEntity(mesh: ballMesh, materials: [material])
+                let ball = ModelEntity(mesh: ballMesh, materials: [material])
                 
                 ball.components.set(InputTargetComponent(allowedInputTypes: .indirect))
                 ball.generateCollisionShapes(recursive: true)
@@ -38,26 +33,23 @@ struct AssetView: View {
             }
             .frame(width: side, height: side)
             .frame(depth: side)
+
             Text("\(sphereNum)")
                 .font(.system(size: 35))
                 .bold()
         }
-        .offset(offset)
+        .offset(offset) // Aplicando o deslocamento à ZStack inteira
         .gesture(
             DragGesture()
-//                .targetedToEntity(ball)
-//                .onChanged({ value in
-//                    ball.position = value.convert(value.location3D, from: .local, to: ball.parent!)
-//                })
-                .targetedToAnyEntity()
                 .onChanged { value in
-                    offset = value.translation
+                    // Atualizando o deslocamento da ZStack com base no movimento do gesto e no fator de escala
+                    offset = CGSize(
+                        width: offset.width + value.translation.width * scaleFactor,
+                        height: offset.height + value.translation.height * scaleFactor
+                    )
                 }
                 .onEnded { value in
-                    //se coords nao colidir com outra bola
-                        //voltar para inicial (CGPoint.zero?)
-                    //se coords colidir
-                        //trocar bolas de lugar
+                    // Aqui você pode adicionar lógica para aplicar algum efeito ou resetar a posição, se necessário
                 }
         )
     }
@@ -66,3 +58,4 @@ struct AssetView: View {
 #Preview {
     AssetView(sphereNum: 1)
 }
+
